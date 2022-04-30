@@ -22,19 +22,37 @@ const { NotImplementedError } = require("../extensions/index.js");
  *   }
  * }
  */
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
 function removeKFromList(l, k) {
-  while (l.indexOf(k) !== 1) {
-    let ind = l.indexOf(k);
-    if (ind === 0) {
-      l.splice(ind, 1);
-    } else if (ind === l.length - 1) {
-      l[ind - 1].next = null;
-      l.splice(ind, 1);
+  let current = l;
+  let ret;
+
+  while (current.next !== null) {
+    if (current.value !== k) {
+      ret = current;
+      break;
+    }
+    current = current.next;
+  }
+
+  let temp = null;
+  while (current !== null) {
+    if (current.value === k) {
+      temp.next = current.next;
+      current = current.next;
     } else {
-      l[ind - 1].next = l[ind + 1];
-      l.splice(ind, 1);
+      temp = current;
+      current = current.next;
     }
   }
+  return ret;
 }
 
 module.exports = {
